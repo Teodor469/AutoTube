@@ -31,7 +31,7 @@ class VideoController extends Controller
         }
 
 
-        $video = Video::create(
+        Video::create(
             [
                 'description' => request()->get('description', ''),
                 'video_path' => $path . $filename,
