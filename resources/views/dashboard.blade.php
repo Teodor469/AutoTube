@@ -17,37 +17,7 @@
         <section class="mt-8">
             <h2 class="text-2xl font-semibold mb-4 ml-2">Upload Video</h2>
             <!-- Upload Form -->
-            <form action=" {{ route('videos.store') }} " method="post" enctype="multipart/form-data">
-                @csrf
-                <!-- Video Upload Input -->
-                <div class="mb-4">
-                    <label for="video_path"
-                        class="relative cursor-pointer bg-gray-800 text-white hover:text-gray-300 border border-gray-300 rounded-md p-2 ml-2 inline-flex items-center">
-                        <span class="mr-2">Choose Video</span>
-                        <input type="file" id="video_path" name="video_path" accept="video/*" required
-                            class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
-                    </label>
-                </div>
-                <!-- Description Input -->
-                <div class="mb-4">
-                    <label for="description" class="block mb-2 ml-2 text-lg">Description:</label>
-                    <textarea id="description" name="description" rows="4" required
-                        class="border border-gray-300 p-2 w-4/12 ml-2 rounded"></textarea>
-                    @error('description')
-                        <span class="mr-2 text-xs text-red-500 block ml-2"> {{ $message }} </span>
-                        <!-- Added block and ml-2 for styling -->
-                    @enderror
-                </div>
-                <!-- Scheduled Time Input -->
-                <div class="mb-4">
-                    <label for="scheduled_time" class="block mb-2 ml-2 text-lg">Scheduled Time:</label>
-                    <input type="datetime-local" id="scheduled_time" name="scheduled_time"
-                        class="border border-gray-300 p-2 w-4/12 ml-2 rounded">
-                </div>
-                <!-- Submit Button -->
-                <button type="submit"
-                    class="bg-blue-500 text-white py-2 px-4 ml-2 rounded hover:bg-blue-600">Upload</button>
-            </form>
+            @include('shared.submit-video')
         </section>
 
         <!-- Videos Due for Upload Section -->
@@ -69,17 +39,6 @@
         <!-- Uploaded Videos Section -->
         <section class="mt-8">
             <h2 class="text-2xl font-semibold mb-4">Uploaded Videos</h2>
-            <!-- Placeholder for Uploaded Videos -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                <!-- Sample Uploaded Video Card -->
-                <div class="bg-gray-100 p-4 rounded-lg shadow-md">
-                    <h3 class="text-lg font-semibold mb-2">Sample Uploaded Video Title</h3>
-                    <p class="text-gray-600 mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vitae
-                        elit libero, a pharetra augue.</p>
-                    <a href="#" class="text-blue-500 hover:underline">View Details</a>
-                </div>
-                <!-- Repeat this for each uploaded video using a loop take the info from the database-->
-            </div>
             {{-- I wouldn't like for this section to show if it's empty --}}
             <div class="mt-4 overflow-auto max-h-80">
                 <div class="bg-gray-600 p-4 rounded-lg shadow-md mb-4">
@@ -89,7 +48,10 @@
                                 <form method="POST" action="{{ route('videos.destroy', $video->id) }}">
                                     @csrf
                                     @method('delete')
-                                    <a href="{{ route('videos.show', $video->id) }}" class="absolute top-2 right-10 text-blue-500">View</a>
+                                    <a href="{{ route('videos.show', $video->id) }}"
+                                        class="absolute top-2 right-10 text-blue-500">View</a>
+                                    <a href="{{ route('videos.edit', $video->id) }}"
+                                        class="absolute top-2 right-10 mr-10 text-blue-500">Edit</a>
                                     <button
                                         class="absolute top-0 right-0 px-2 py-1 mt-1 mr-1 bg-red-500 text-white rounded">X</button>
                                 </form>
@@ -99,8 +61,26 @@
                                     height="240" controls></video>
                             </div>
                             <div>
-                                <p>{{ $video->description }}</p>
-                                <p>{{ $video->created_at }}</p>
+                                @if ($editing ?? false)
+                                    <form action="{{ route('videos.update', $video->id) }}" method="post">
+                                        @csrf
+                                        @method('put')
+                                        <div class="mb-4">
+                                            <label for="description" class="block mb-2 ml-2 text-lg">Description:</label>
+                                            <textarea id="description" name="description" rows="4" required
+                                                class="border border-gray-300 p-2 w-4/12 ml-2 rounded"></textarea>
+                                            @error('description')
+                                                <span class="mr-2 text-xs text-red-500 block ml-2"> {{ $message }} </span>
+                                            @enderror
+                                        </div>
+                                        <div class="">
+                                            <button type="submit" class="mb-2 btn btn-dark btn-sm">Update</button>
+                                        </div>
+                                    </form>
+                                @else
+                                    <p>{{ $video->description }}</p>
+                                    <p>{{ $video->created_at }}</p>
+                                @endif
                             </div>
                         </div>
                     @endforeach
@@ -109,7 +89,6 @@
                     </div>
                 </div>
             </div>
-
         </section>
     </div>
 

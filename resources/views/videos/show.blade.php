@@ -16,12 +16,17 @@
         <h2 class="text-2xl font-semibold mb-4">Uploaded Videos</h2>
         {{-- I wouldn't like for this section to show if it's empty --}}
         <div class="mt-4 overflow-auto max-h-80">
+            @include('shared.success-message')
             <div class="bg-gray-600 p-4 rounded-lg shadow-md mb-4">
                 <div class="bg-gray-100 p-4 rounded-lg shadow-md mb-4 flex items-center relative">
                     <div>
                         <form method="POST" action="{{ route('videos.destroy', $video->id) }}">
                             @csrf
                             @method('delete')
+                            <a href="{{ route('videos.show', $video->id) }}"
+                                class="absolute top-2 right-10 text-blue-500">View</a>
+                            <a href="{{ route('videos.edit', $video->id) }}"
+                                class="absolute top-2 right-10 mr-10 text-blue-500">Edit</a>
                             <button
                                 class="absolute top-0 right-0 px-2 py-1 mt-1 mr-1 bg-red-500 text-white rounded">X</button>
                         </form>
@@ -31,8 +36,26 @@
                             controls></video>
                     </div>
                     <div>
-                        <p>{{ $video->description }}</p>
-                        <p>{{ $video->created_at }}</p>
+                        @if ($editing ?? false)
+                            <form action="{{ route('videos.update', $video->id) }}" method="post">
+                                @csrf
+                                @method('put')
+                                <div class="mb-4">
+                                    <label for="description" class="block mb-2 ml-2 text-lg">Description:</label>
+                                    <textarea id="description" name="description" rows="4" required
+                                        class="border border-gray-300 p-2 w-96 ml-2 rounded"></textarea>
+                                    @error('description')
+                                        <span class="mr-2 text-xs text-red-500 block ml-2"> {{ $message }} </span>
+                                    @enderror
+                                </div>
+                                <div class="">
+                                    <button type="submit" class="mb-2 btn btn-dark btn-sm">Update</button>
+                                </div>
+                            </form>
+                        @else
+                            <p>{{ $video->description }}</p>
+                            <p>{{ $video->created_at }}</p>
+                        @endif
                     </div>
                 </div>
             </div>

@@ -54,5 +54,22 @@ class VideoController extends Controller
 
         return redirect()->route('dashboard')->with('success', 'Video deleted successfully!');
     }
+
+    public function edit(Video $video)
+    {
+        $editing = true;
+
+        return view('videos.show', compact('video', 'editing'));
+    }
+
+    public function update(Video $video)
+    {
+        $validated = request()->validate([
+            'description' => 'required|string',
+        ]);
+
+        $video->update($validated);
+
+        return redirect()->route('videos.show', $video->id)->with('success', "Video updated successfully!");
+    }
 }
-//Hello
