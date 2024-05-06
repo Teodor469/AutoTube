@@ -64,6 +64,4 @@
     </section>
     </div>
 
-</body>
-
-</html>
+@include('layout.footer')
