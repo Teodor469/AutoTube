@@ -20,7 +20,8 @@
                     </div>
                     <div>
                         <p>{{ $video->description }}</p>
-                        <p>{{ $video->created_at }}</p>
+                        <p>{{ $video->scheduled_time }}</p>
+                        <p>{{ $video->published }}</p>
                     </div>
                 </div>
         @endforeach

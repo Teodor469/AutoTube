@@ -36,6 +36,7 @@ class VideoController extends Controller
                 'description' => request()->get('description', ''),
                 'video_path' => $path . $filename,
                 'scheduled_time' => request()->get('scheduled_time', ''),
+                'published' => request()->get('published', '')
             ]
         );
 

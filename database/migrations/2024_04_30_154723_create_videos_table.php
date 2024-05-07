@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('description');
             $table->string('video_path')->nullable();
             $table->dateTime('scheduled_time')->nullable();
+            $table->boolean('published')->default(FALSE);
             $table->timestamps();
         });
     }
