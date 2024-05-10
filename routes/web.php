@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\VideoController;
 use Illuminate\Support\Facades\Route;
@@ -15,3 +16,7 @@ Route::put('/videos/{video}', [VideoController::class, 'update'])->name('videos.
 Route::post('/videos', [VideoController::class, 'store'])->name('videos.store');
 
 Route::delete('/videos/{video}', [VideoController::class, 'destroy'])->name('videos.destroy');
+
+Route::get('/register', [AuthController::class, 'register'])->name('register.form');
+
+Route::post('/register', [AuthController::class, 'store'])->name('register.submit');

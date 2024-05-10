@@ -15,10 +15,9 @@
 
         <!-- Navbar links -->
         <ul class="hidden lg:flex space-x-4">
-            <li><a href="#" class="text-white hover:text-gray-300">Home</a></li>
-            <li><a href="#" class="text-white hover:text-gray-300">About</a></li>
-            <li><a href="#" class="text-white hover:text-gray-300">Services</a></li>
-            <li><a href="#" class="text-white hover:text-gray-300">Contact</a></li>
+            <li><a href="{{ route('register.form') }}" class="text-white hover:text-gray-300">Register</a></li>
+            <li><a href="#" class="text-white hover:text-gray-300">Login</a></li>
+            {{-- Create a sidebar for the home,about,services,contact --}}
         </ul>
     </div>
 </nav>

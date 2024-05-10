@@ -22,7 +22,7 @@
                         <div class="bg-gray-100 p-4 rounded-lg shadow-md mb-4">
                             @foreach ($videos as $video)
                                 @if (!$video->published)
-                                    @include('shared.video-card')
+                                    @include('shared.video-card', ['video' => $video])
                                 @endif
                             @endforeach
                         </div>
@@ -42,32 +42,7 @@
                 <div class="mt-4 overflow-auto max-h-80">
                     @foreach ($publishedVideos as $publishedVideo)
                         @if ($publishedVideo->published)
-                            <div class="mt-4 overflow-auto">
-                                <div class="bg-gray-100 p-4 rounded-lg shadow-md mb-4 flex items-center relative">
-                                    <div>
-                                        <form method="POST"
-                                            action="{{ route('videos.destroy', $publishedVideo->id) }}">
-                                            @csrf
-                                            @method('delete')
-                                            <a href="{{ route('videos.show', $publishedVideo->id) }}"
-                                                class="absolute top-2 right-10 text-blue-500">View</a>
-                                            <a href="{{ route('videos.edit', $publishedVideo->id) }}"
-                                                class="absolute top-2 right-10 mr-10 text-blue-500">Edit</a>
-                                            <button
-                                                class="absolute top-0 right-0 px-2 py-1 mt-1 mr-1 bg-red-500 text-white rounded">X</button>
-                                        </form>
-                                    </div>
-                                    <div class="mr-4">
-                                        <video src="{{ asset($publishedVideo->video_path) }}" type="video/mp4"
-                                            width="320" height="240" controls></video>
-                                    </div>
-                                    <div>
-                                        <p>{{ $publishedVideo->description }}</p>
-                                        <p>{{ $publishedVideo->scheduled_time }}</p>
-                                        <p>{{ $publishedVideo->published }}</p>
-                                    </div>
-                                </div>
-                            </div>
+                            @include('shared.video-card', ['video' => $publishedVideo])
                         @endif
                     @endforeach
                 </div>
