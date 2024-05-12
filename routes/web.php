@@ -20,3 +20,9 @@ Route::delete('/videos/{video}', [VideoController::class, 'destroy'])->name('vid
 Route::get('/register', [AuthController::class, 'register'])->name('register.form');
 
 Route::post('/register', [AuthController::class, 'store'])->name('register.submit');
+
+Route::get('/login', [AuthController::class, 'login'])->name('login.form');
+
+Route::post('/login', [AuthController::class, 'authenticate'])->name('login.submit');
+
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
