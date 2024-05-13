@@ -1,4 +1,4 @@
-@auth
+@auth()
     <form action=" {{ route('videos.store') }} " method="post" enctype="multipart/form-data">
         @csrf
         <!-- Video Upload Input -->
@@ -28,6 +28,6 @@
         <button type="submit" class="bg-blue-500 text-white py-2 px-4 ml-2 rounded hover:bg-blue-600">Upload</button>
     </form>
 @endauth
-@guest
-<h2 class="text-2xl font-semibold mb-4 ml-2">Upload Video</h2>
+@guest()
+    <h2 class="text-2xl font-semibold mb-4 ml-2">Login To Upload Video</h2>
 @endguest

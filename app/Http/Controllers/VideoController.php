@@ -33,6 +33,7 @@ class VideoController extends Controller
 
         Video::create(
             [
+                'user_id' => auth()->user()->id,
                 'description' => request()->get('description', ''),
                 'video_path' => $path . $filename,
                 'scheduled_time' => request()->get('scheduled_time', ''),
@@ -45,6 +46,10 @@ class VideoController extends Controller
 
     public function destroy(Video $video)
     {
+        if (auth()->id() !== $video->user_id) {
+            abort(404);
+        }
+
         $filePath = public_path($video->video_path);
 
         if (file_exists($filePath)) {
@@ -58,6 +63,10 @@ class VideoController extends Controller
 
     public function edit(Video $video)
     {
+        if (auth()->id() !== $video->user_id) {
+            abort(404);
+        }
+
         $editing = true;
 
         return view('videos.show', compact('video', 'editing'));
@@ -65,6 +74,10 @@ class VideoController extends Controller
 
     public function update(Video $video)
     {
+        if (auth()->id() !== $video->user_id) {
+            abort(404);
+        }
+
         $validated = request()->validate([
             'description' => 'required|string',
         ]);

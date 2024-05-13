@@ -5,9 +5,11 @@
                 @csrf
                 @method('delete')
                 <a href="{{ route('videos.show', $video->id) }}" class="absolute top-2 right-10 text-blue-500">View</a>
+                @if (auth()->id() == $video->user_id)
                 <a href="{{ route('videos.edit', $video->id) }}"
                     class="absolute top-2 right-10 mr-10 text-blue-500">Edit</a>
                 <button class="absolute top-0 right-0 px-2 py-1 mt-1 mr-1 bg-red-500 text-white rounded">X</button>
+                @endif
             </form>
         </div>
         <div class="mr-4">
