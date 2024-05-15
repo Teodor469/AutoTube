@@ -32,7 +32,7 @@
                 {{-- the pagination links with both sections and looks weird must fix it --}}
         </section>
         <div class="text-white flex space-x-2 mt-2">
-            {{ $videos->appends(['publishedVideos' => $publishedVideos->currentPage()])->links() }}
+            {{ $videos->appends(['posted' => $publishedVideos->currentPage()])->links() }}
         </div>
 
         <!-- Uploaded Videos Section -->
@@ -48,7 +48,7 @@
                 </div>
             </div>
             <div class="text-white flex space-x-2 mt-2">
-                {{ $publishedVideos->appends(['videos' => $videos->currentPage()])->links() }}
+                {{ $publishedVideos->appends(['due' => $videos->currentPage()])->links() }}
             </div>
         </section>
     </div>
