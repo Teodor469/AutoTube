@@ -7,15 +7,20 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
-Route::get('/videos/{video}', [VideoController::class, 'show'])->name('videos.show');
+Route::group(['prefix' => 'videos', 'as' => 'videos.'], function () {
 
-Route::get('/videos/{video}/edit', [VideoController::class, 'edit'])->name('videos.edit')->middleware('auth');
+    Route::post('', [VideoController::class, 'store'])->name('store');
 
-Route::put('/videos/{video}', [VideoController::class, 'update'])->name('videos.update')->middleware('auth');
+    Route::get('/{video}', [VideoController::class, 'show'])->name('show');
 
-Route::post('/videos', [VideoController::class, 'store'])->name('videos.store')->middleware('auth');
+    Route::group(['middleware' => ['auth']], function () {
+        Route::get('/{video}/edit', [VideoController::class, 'edit'])->name('edit');
 
-Route::delete('/videos/{video}', [VideoController::class, 'destroy'])->name('videos.destroy')->middleware('auth');
+        Route::put('/{video}', [VideoController::class, 'update'])->name('update');
+
+        Route::delete('/{video}', [VideoController::class, 'destroy'])->name('destroy');
+    });
+});
 
 Route::get('/register', [AuthController::class, 'register'])->name('register.form');
 
