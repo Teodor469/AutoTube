@@ -9,14 +9,24 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        // return view('dashboard', [
-        //     'videos' => Video::orderBy('created_at', 'DESC')->paginate(3, ['*'], 'due'),
-        //     'publishedVideos' => Video::where('published', true)->paginate(3, ['*'], 'posted'),
-        // ]);
+        $unpublishedVideos = Video::where('user_id', auth()->id())
+                                  ->where('published', false)
+                                  ->orderBy('created_at', 'DESC')
+                                  ->paginate(3, ['*'], 'due');
+
+        $publishedVideos = Video::where('user_id', auth()->id())
+                                ->where('published', true)
+                                ->orderBy('created_at', 'DESC')
+                                ->paginate(3, ['*'], 'posted');
 
         return view('dashboard')->with([
-            'videos' => Video::where('published', false)->orderBy('created_at', 'DESC')->paginate(3, ['*'], 'due'),
-            'publishedVideos' => Video::where('published', true)->orderBy('created_at', 'DESC')->paginate(3, ['*'], 'posted'),
+            'videos' => $unpublishedVideos,
+            'publishedVideos' => $publishedVideos,
         ]);
+    }
+
+    public function landingPage()
+    {
+        return view('landing-page');
     }
 }

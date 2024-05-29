@@ -5,22 +5,14 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\VideoController;
 use Illuminate\Support\Facades\Route;
 
+Route::get('/landing-page', [DashboardController::class, 'landingPage'])->name('landing-page');
+
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
-Route::group(['prefix' => 'videos', 'as' => 'videos.'], function () {
+Route::resource('videos', VideoController::class)->except(['index', 'create', 'show'])->middleware('auth');
 
-    Route::post('', [VideoController::class, 'store'])->name('store');
+Route::resource('videos', VideoController::class)->only(['show']);
 
-    Route::get('/{video}', [VideoController::class, 'show'])->name('show');
-
-    Route::group(['middleware' => ['auth']], function () {
-        Route::get('/{video}/edit', [VideoController::class, 'edit'])->name('edit');
-
-        Route::put('/{video}', [VideoController::class, 'update'])->name('update');
-
-        Route::delete('/{video}', [VideoController::class, 'destroy'])->name('destroy');
-    });
-});
 
 Route::get('/register', [AuthController::class, 'register'])->name('register.form');
 
