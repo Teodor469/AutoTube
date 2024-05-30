@@ -30,10 +30,10 @@
             </div>
         </div>
 
-        <a href="{{ route('register.form') }}"
+        <a href="{{ route('login') }}"
             class="bg-red-600 text-white py-3 px-6 rounded-lg text-xl transition duration-300 hover:bg-red-700">
             Get Started
         </a>
     </div>
 
-@include('layout.footer')
+    @include('layout.footer')

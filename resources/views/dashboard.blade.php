@@ -16,17 +16,17 @@
                 <!-- Placeholder for Videos Due for Upload -->
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
                     {{-- I wouldn't like for this section to show if it's empty --}}
-                        <div class="mt-4 overflow-auto max-h-80">
-                            <div class="mt-4 overflow-auto">
-                                <div class="bg-gray-100 p-4 rounded-lg shadow-md mb-4">
-                                    @foreach ($videos as $video)
-                                        @if (!$video->published)
-                                            @include('shared.video-card', ['video' => $video])
-                                        @endif
-                                    @endforeach
-                                </div>
+                    <div class="mt-4 overflow-auto max-h-80">
+                        <div class="mt-4 overflow-auto">
+                            <div class="bg-gray-100 p-4 rounded-lg shadow-md mb-4">
+                                @foreach ($videos as $video)
+                                    @if (!$video->published)
+                                        @include('shared.video-card', ['video' => $video])
+                                    @endif
+                                @endforeach
                             </div>
                         </div>
+                    </div>
             </section>
             <div class="text-white flex space-x-2 mt-2">
                 {{ $videos->appends(['posted' => $publishedVideos->currentPage()])->links() }}
@@ -50,7 +50,6 @@
         </div>
 
         @include('layout.footer')
-
     @endauth
 
     @guest

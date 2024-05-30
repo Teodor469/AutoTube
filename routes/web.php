@@ -11,7 +11,7 @@ Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
 Route::resource('videos', VideoController::class)->except(['index', 'create', 'show'])->middleware('auth');
 
-Route::resource('videos', VideoController::class)->only(['show']);
+Route::resource('videos', VideoController::class);
 
 
 Route::get('/register', [AuthController::class, 'register'])->name('register.form');

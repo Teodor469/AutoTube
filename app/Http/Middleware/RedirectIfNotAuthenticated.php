@@ -16,10 +16,24 @@ class RedirectIfNotAuthenticated
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!Auth::check() && !$request->is('landing-page') && !$request->is('register')) {
+        // List of routes that should be accessible without authentication
+        $accessibleRoutes = [
+            'landing-page',
+            'register',
+            'login',
+            'register.submit',
+            'login.submit'
+        ];
+
+        if (!auth()->check() && !$request->is($accessibleRoutes)) {
             return redirect()->route('landing-page');
+        } elseif (auth()->check()) {
+            return redirect()->route('dashboard');
         }
 
         return $next($request);
     }
+
+
 }
+// I will be coming back to this in the future
