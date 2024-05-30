@@ -1,21 +1,23 @@
 @auth
     @include('layout.head')
 
-    <body>
+
+    @include('layout.sidebar')
+
+    <div class="flex-grow ml-64">
         @include('layout.nav')
-        <div class="container mx-auto">
+        <div class="container mx-auto p-4">
             @include('shared.success-message')
-            <section class="mt-8">
-                <h2 class="text-2xl font-semibold mb-4 ml-2">Upload Video</h2>
-                @include('shared.submit-video')
-            </section>
+
+            {{-- <section class="mt-8">
+                    <h2 class="text-2xl font-semibold mb-4 ml-2">Upload Video</h2>
+                    @include('shared.submit-video')
+                </section> --}}
 
             <!-- Videos Due for Upload Section -->
             <section class="mt-8">
                 <h2 class="text-2xl font-semibold mb-4">Videos Due for Upload</h2>
-                <!-- Placeholder for Videos Due for Upload -->
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
-                    {{-- I wouldn't like for this section to show if it's empty --}}
                     <div class="mt-4 overflow-auto max-h-80">
                         <div class="mt-4 overflow-auto">
                             <div class="bg-gray-100 p-4 rounded-lg shadow-md mb-4">
@@ -27,10 +29,13 @@
                             </div>
                         </div>
                     </div>
+                </div>
             </section>
+
             <div class="text-white flex space-x-2 mt-2">
                 {{ $videos->appends(['posted' => $publishedVideos->currentPage()])->links() }}
             </div>
+
             <!-- Uploaded Videos Section -->
             <section class="mt-8">
                 <h2 class="text-2xl font-semibold mb-4">Uploaded Videos</h2>
@@ -49,9 +54,11 @@
             </section>
         </div>
 
-        @include('layout.footer')
-    @endauth
 
-    @guest
-        @include('landing-page')
-    @endguest
+    </div>
+    @include('layout.footer')
+@endauth
+
+@guest
+    @include('landing-page')
+@endguest

@@ -29,4 +29,9 @@ class DashboardController extends Controller
     {
         return view('landing-page');
     }
+
+    public function uploadVideos()
+    {
+        return view('tools.submit-video');
+    }
 }

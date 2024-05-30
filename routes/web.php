@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/landing-page', [DashboardController::class, 'landingPage'])->name('landing-page');
 
+Route::get('/submit-video', [DashboardController::class, 'uploadVideos'])->name('videos.upload');
+
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
 Route::resource('videos', VideoController::class)->except(['index', 'create', 'show'])->middleware('auth');
