@@ -7,7 +7,7 @@
         <nav class="px-4 mt-6">
             <a href=" {{ route('dashboard') }} "
                 class="block px-4 py-2 mt-2 text-sm font-semibold text-white bg-gray-700 rounded hover:bg-gray-600">Dashboard</a>
-            <a href="#"
+            <a href=" {{ route('videos.due') }} "
                 class="block px-4 py-2 mt-2 text-sm font-semibold text-white rounded hover:bg-gray-600">Videos Due To
                 Upload</a>
             <a href="#"

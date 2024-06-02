@@ -34,4 +34,9 @@ class DashboardController extends Controller
     {
         return view('tools.submit-video');
     }
+
+    public function videosDue()
+    {
+        return view('tools.videos-due');
+    }
 }

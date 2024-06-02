@@ -1,25 +1,26 @@
 <div class="mt-4 overflow-auto">
-    <div class="bg-gray-100 p-4 rounded-lg shadow-md mb-4 flex items-center relative">
-        <div>
-            <form method="POST" action="{{ route('videos.destroy', $video->id) }}">
-                @csrf
-                @method('delete')
-                <a href="{{ route('videos.show', $video->id) }}" class="absolute top-2 right-10 text-blue-500">View</a>
-                @if (auth()->id() == $video->user_id)
-                    <a href="{{ route('videos.edit', $video->id) }}"
-                        class="absolute top-2 right-10 mr-10 text-blue-500">Edit</a>
-                    <button class="absolute top-0 right-0 px-2 py-1 mt-1 mr-1 bg-red-500 text-white rounded">X</button>
-                @endif
-            </form>
-        </div>
+    <div class="bg-gray-800 p-6 rounded-lg shadow-md mb-4 flex items-center relative text-white">
         <div class="mr-4">
-            <video src="{{ asset($video->video_path) }}" type="video/mp4" width="320" height="240"
-                controls></video>
+            <video src="{{ asset($video->video_path) }}" type="video/mp4" class="w-64 h-40 rounded-lg" controls></video>
         </div>
-        <div>
-            <p>{{ $video->description }}</p>
-            <p>{{ $video->scheduled_time }}</p>
-            <p>{{ $video->published }}</p>
+        <div class="flex-grow">
+            <p class="mb-2">{{ $video->description }}</p>
+            <p class="text-sm text-gray-400 mb-2">{{ $video->scheduled_time }}</p>
+            <p class="text-sm text-green-400">{{ $video->published ? 'Published' : 'Unpublished' }}</p>
+        </div>
+        <div class="flex space-x-2 absolute top-4 right-4">
+            <a href="{{ route('videos.show', $video->id) }}"
+                class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg">View</a>
+            @if (auth()->id() == $video->user_id)
+                <a href="{{ route('videos.edit', $video->id) }}"
+                    class="px-4 py-2 bg-yellow-500 hover:bg-yellow-600 text-white rounded-lg">Edit</a>
+                <form method="POST" action="{{ route('videos.destroy', $video->id) }}">
+                    @csrf
+                    @method('delete')
+                    <button type="submit"
+                        class="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg">Delete</button>
+                </form>
+            @endif
         </div>
     </div>
 </div>

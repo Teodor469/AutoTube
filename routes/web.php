@@ -5,23 +5,27 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\VideoController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/landing-page', [DashboardController::class, 'landingPage'])->name('landing-page');
-
-Route::get('/submit-video', [DashboardController::class, 'uploadVideos'])->name('videos.upload');
+Route::get('/landingPage', [DashboardController::class, 'landingPage'])->name('landingPage');
 
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
-Route::resource('videos', VideoController::class)->except(['index', 'create', 'show'])->middleware('auth');
+Route::group(['middleware' => ['auth']], function () { // May need to update the group in order to share the same namespace for the controller
 
-Route::resource('videos', VideoController::class);
+    Route::get('/submitVideo', [DashboardController::class, 'uploadVideos'])->name('videos.upload');
 
+    Route::get('/videosDue', [DashboardController::class, 'videosDue'])->name('videos.due');
 
-Route::get('/register', [AuthController::class, 'register'])->name('register.form');
+    Route::resource('videos', VideoController::class)->except(['index', 'create']);
+});
 
-Route::post('/register', [AuthController::class, 'store'])->name('register.submit');
+Route::controller(AuthController::class)->group(function () {
+    Route::get('/register', 'register')->name('register.form');
 
-Route::get('/login', [AuthController::class, 'login'])->name('login');
+    Route::post('/register', 'store')->name('register.submit');
 
-Route::post('/login', [AuthController::class, 'authenticate'])->name('login.submit');
+    Route::get('/login', 'login')->name('login');
 
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+    Route::post('/login', 'authenticate')->name('login.submit');
+
+    Route::post('/logout', 'logout')->name('logout');
+});

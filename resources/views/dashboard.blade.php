@@ -9,11 +9,6 @@
         <div class="container mx-auto p-4">
             @include('shared.success-message')
 
-            {{-- <section class="mt-8">
-                    <h2 class="text-2xl font-semibold mb-4 ml-2">Upload Video</h2>
-                    @include('shared.submit-video')
-                </section> --}}
-
             <!-- Videos Due for Upload Section -->
             <section class="mt-8">
                 <h2 class="text-2xl font-semibold mb-4">Videos Due for Upload</h2>
