@@ -10,7 +10,7 @@
             @include('shared.success-message')
 
             <!-- Videos Due for Upload Section -->
-            <section class="mt-8">
+            {{-- <section class="mt-8">
                 <h2 class="text-2xl font-semibold mb-4">Videos Due for Upload</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
                     <div class="mt-4 overflow-auto max-h-80">
@@ -47,7 +47,7 @@
                     {{ $publishedVideos->appends(['due' => $videos->currentPage()])->links() }}
                 </div>
             </section>
-        </div>
+        </div> --}}
 
 
     </div>

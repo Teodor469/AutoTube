@@ -9,19 +9,30 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $unpublishedVideos = Video::where('user_id', auth()->id())
-                                  ->where('published', false)
-                                  ->orderBy('created_at', 'DESC')
-                                  ->paginate(3, ['*'], 'due');
+        return view('dashboard');
+    }
 
+    public function publishedVideos()
+    {
         $publishedVideos = Video::where('user_id', auth()->id())
-                                ->where('published', true)
-                                ->orderBy('created_at', 'DESC')
-                                ->paginate(3, ['*'], 'posted');
+            ->where('published', true)
+            ->orderBy('created_at', 'DESC')
+            ->paginate(6, ['*'], 'posted');
 
-        return view('dashboard')->with([
-            'videos' => $unpublishedVideos,
-            'publishedVideos' => $publishedVideos,
+        return view('tools.videos-uploaded')->with([
+            'videos' => $publishedVideos
+        ]);
+    }
+
+    public function unpublishedVideos()
+    {
+        $unpublishedVideos = Video::where('user_id', auth()->id())
+            ->where('published', false)
+            ->orderBy('created_at', 'DESC')
+            ->paginate(6, ['*'], 'due');
+
+        return view('tools.videos-due')->with([
+            'videos' => $unpublishedVideos
         ]);
     }
 
@@ -33,10 +44,5 @@ class DashboardController extends Controller
     public function uploadVideos()
     {
         return view('tools.submit-video');
-    }
-
-    public function videosDue()
-    {
-        return view('tools.videos-due');
     }
 }

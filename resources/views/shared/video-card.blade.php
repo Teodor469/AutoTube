@@ -1,5 +1,5 @@
 <div class="mt-4 overflow-auto">
-    <div class="bg-gray-800 p-6 rounded-lg shadow-md mb-4 flex items-center relative text-white">
+    <div class="bg-gray-700 p-6 rounded-lg shadow-md mb-4 flex items-center relative text-white">
         <div class="mr-4">
             <video src="{{ asset($video->video_path) }}" type="video/mp4" class="w-64 h-40 rounded-lg" controls></video>
         </div>

@@ -16,7 +16,7 @@
             <!-- Videos Grid -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 overflow-auto max-h-96">
                 @foreach ($videos as $video)
-                    @if (!$video->published)
+                    @if ($video->published)
                         @include('shared.video-card')
                     @endif
                 @endforeach

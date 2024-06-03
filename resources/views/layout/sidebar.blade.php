@@ -10,7 +10,7 @@
             <a href=" {{ route('videos.due') }} "
                 class="block px-4 py-2 mt-2 text-sm font-semibold text-white rounded hover:bg-gray-600">Videos Due To
                 Upload</a>
-            <a href="#"
+            <a href=" {{ route('videos.published') }} "
                 class="block px-4 py-2 mt-2 text-sm font-semibold text-white rounded hover:bg-gray-600">Uploaded
                 Videos</a>
             <a href=" {{ route('videos.upload') }} "

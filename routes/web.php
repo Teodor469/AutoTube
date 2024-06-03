@@ -13,7 +13,9 @@ Route::group(['middleware' => ['auth']], function () { // May need to update the
 
     Route::get('/submitVideo', [DashboardController::class, 'uploadVideos'])->name('videos.upload');
 
-    Route::get('/videosDue', [DashboardController::class, 'videosDue'])->name('videos.due');
+    Route::get('/videosDue', [DashboardController::class, 'unpublishedVideos'])->name('videos.due');
+
+    Route::get('/videosPublished', [DashboardController::class, 'publishedVideos'])->name('videos.published');
 
     Route::resource('videos', VideoController::class)->except(['index', 'create']);
 });
