@@ -9,8 +9,13 @@
 
             <!-- Search Bar -->
             <div class="mb-8">
-                <input type="text" id="search" placeholder="Search videos..."
-                    class="w-full p-4 rounded bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <form action="{{ route('videos.due') }}" method="GET" class="flex">
+                    <input name="search" type="text" id="search" placeholder="Search videos..."
+                        class="w-full p-4 rounded-l bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-r hover:bg-blue-600 focus:outline-none">
+                        Search
+                    </button>
+                </form>
             </div>
 
             <!-- Videos Grid -->

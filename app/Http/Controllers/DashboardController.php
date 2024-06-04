@@ -16,24 +16,31 @@ class DashboardController extends Controller
     {
         $publishedVideos = Video::where('user_id', auth()->id())
             ->where('published', true)
-            ->orderBy('created_at', 'DESC')
-            ->paginate(6, ['*'], 'posted');
+            ->orderBy('created_at', 'DESC');
 
-        return view('tools.videos-uploaded')->with([
-            'videos' => $publishedVideos
-        ]);
+        if (request()->has('search')) {
+            $publishedVideos = $publishedVideos->where('description', 'like', '%' . request()->get('search', '') . '%');
+        }
+
+        $videos = $publishedVideos->paginate(6, ['*'], 'due');
+
+        return view('tools.videos-uploaded')->with('videos', $videos);
     }
 
     public function unpublishedVideos()
     {
         $unpublishedVideos = Video::where('user_id', auth()->id())
             ->where('published', false)
-            ->orderBy('created_at', 'DESC')
-            ->paginate(6, ['*'], 'due');
+            ->orderBy('created_at', 'DESC');
 
-        return view('tools.videos-due')->with([
-            'videos' => $unpublishedVideos
-        ]);
+
+        if (request()->has('search')) {
+            $unpublishedVideos = $unpublishedVideos->where('description', 'like', '%' . request()->get('search', '') . '%');
+        }
+
+        $videos = $unpublishedVideos->paginate(6, ['*'], 'due');
+
+        return view('tools.videos-due')->with('videos', $videos);
     }
 
     public function landingPage()
