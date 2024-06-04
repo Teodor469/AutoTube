@@ -16,6 +16,10 @@ class Video extends Model
         'scheduled_time',
     ];
 
+    protected $casts = [
+        'scheduled_time' => 'datetime',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);

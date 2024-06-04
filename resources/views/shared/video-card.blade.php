@@ -5,7 +5,7 @@
         </div>
         <div class="flex-grow">
             <p class="mb-2">{{ $video->description }}</p>
-            <p class="text-sm text-gray-400 mb-2">{{ $video->scheduled_time }}</p>
+            <p class="text-sm text-gray-400 mb-2">{{ $video->scheduled_time ? $video->scheduled_time->format('F j, Y, g:i a') : 'No scheduled time' }}</p>
             <p class="text-sm text-green-400">{{ $video->published ? 'Published' : 'Unpublished' }}</p>
         </div>
         <div class="flex space-x-2 absolute top-4 right-4">

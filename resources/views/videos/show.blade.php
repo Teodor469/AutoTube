@@ -1,58 +1,48 @@
 @include('layout.head')
 
-<body>
-    @include('layout.nav')
-    <!-- Uploaded Videos Section -->
-    <section class="mt-8">
-        <h2 class="text-2xl font-semibold mb-4">Uploaded Videos</h2>
-        {{-- I wouldn't like for this section to show if it's empty --}}
-        <div class="mt-4 overflow-auto max-h-80">
-            @include('shared.success-message')
-            <div class="bg-gray-600 p-4 rounded-lg shadow-md mb-4">
-                <div class="bg-gray-100 p-4 rounded-lg shadow-md mb-4 flex items-center relative">
-                    <div>
-                        <form method="POST" action="{{ route('videos.destroy', $video->id) }}">
+<body class="bg-gray-900 text-gray-200">
+    <!-- Video Display Section -->
+    <section class="container mx-auto mt-8 px-4">
+        <h2 class="text-3xl font-semibold mb-6">Uploaded Video</h2>
+        @if($video)
+            <div class="bg-gray-800 p-6 rounded-lg shadow-md flex flex-col items-center">
+                <video src="{{ asset($video->video_path) }}" type="video/mp4" class="w-full max-w-2xl h-auto mb-4" controls></video>
+                <div class="w-full max-w-2xl">
+                    @if ($editing ?? false)
+                        <form action="{{ route('videos.update', $video->id) }}" method="post">
+                            @csrf
+                            @method('put')
+                            <div class="mb-4">
+                                <label for="description" class="block mb-2 text-lg">Description:</label>
+                                <textarea id="description" name="description" rows="4" required placeholder="Edit Description..."
+                                          class="border border-gray-300 p-2 w-full rounded bg-gray-700"></textarea>
+                                @error('description')
+                                    <span class="text-xs text-red-500 block"> {{ $message }} </span>
+                                @enderror
+                            </div>
+                            <div class="flex justify-end">
+                                <button type="submit" class="px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-lg">Update</button>
+                            </div>
+                        </form>
+                    @else
+                        <p class="mb-2 text-white">{{ $video->description }}</p>
+                        <p class="text-sm text-gray-400 mb-2">{{ $video->created_at->format('F j, Y, g:i a') }}</p>
+                    @endif
+                    <div class="mt-4 flex justify-end space-x-2">
+                        <a href="{{ route('videos.edit', $video->id) }}"
+                           class="px-4 py-2 bg-yellow-500 hover:bg-yellow-600 text-white rounded-lg">Edit</a>
+                        <form method="POST" action="{{ route('videos.destroy', $video->id) }}" onsubmit="return confirm('Are you sure you want to delete this video?');">
                             @csrf
                             @method('delete')
-                            <a href="{{ route('videos.show', $video->id) }}"
-                                class="absolute top-2 right-10 text-blue-500">View</a>
-                            <a href="{{ route('videos.edit', $video->id) }}"
-                                class="absolute top-2 right-10 mr-10 text-blue-500">Edit</a>
-                            <button
-                                class="absolute top-0 right-0 px-2 py-1 mt-1 mr-1 bg-red-500 text-white rounded">X</button>
+                            <button type="submit" class="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg">Delete</button>
                         </form>
-                    </div>
-                    <div class="mr-4">
-                        <video src="{{ asset($video->video_path) }}" type="video/mp4" width="320" height="240"
-                            controls></video>
-                    </div>
-                    <div>
-                        @if ($editing ?? false)
-                            <form action="{{ route('videos.update', $video->id) }}" method="post">
-                                @csrf
-                                @method('put')
-                                <div class="mb-4">
-                                    <label for="description" class="block mb-2 ml-2 text-lg">Description:</label>
-                                    <textarea id="description" name="description" rows="4" required
-                                        class="border border-gray-300 p-2 w-96 ml-2 rounded"></textarea>
-                                    @error('description')
-                                        <span class="mr-2 text-xs text-red-500 block ml-2"> {{ $message }} </span>
-                                    @enderror
-                                </div>
-                                <div class="">
-                                    <button type="submit" class="mb-2 btn btn-dark btn-sm">Update</button>
-                                </div>
-                            </form>
-                        @else
-                            <p>{{ $video->description }}</p>
-                            <p>{{ $video->created_at }}</p>
-                        @endif
                     </div>
                 </div>
             </div>
-        </div>
-
+        @else
+            <p class="text-xl text-center mt-16">No video uploaded yet.</p>
+        @endif
     </section>
-    </div>
 
-@include('layout.footer')
+    @include('layout.footer')
+</body>
