@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Video;
+use Illuminate\Auth\Events\Validated;
 use Illuminate\Http\Request;
 
 class VideoController extends Controller
@@ -14,30 +15,46 @@ class VideoController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'description' => 'required|string',
             'video_path' => 'required|mimes:mp4,mov,avi|max:50000',
+            'thumbnail' => 'image|mimes:jpeg,png,jpg|max:2048',
             'scheduled_time' => 'date|nullable',
         ]);
 
+        $videoPath = '';
         if ($request->has('video_path')) {
             $file = $request->file('video_path');
             $extension = $file->getClientOriginalExtension();
-
             $filename = time() . '.' . $extension;
 
             $path = 'uploads/category/';
             $file->move($path, $filename);
+
+            $videoPath = $path . $filename;
+            $validated['video_path'] = $videoPath;
         }
 
+        $thumbnailPath = '';
+        if ($request->has('thumbnail')) {
+            $file = $request->file('thumbnail');
+            $extension = $file->getClientOriginalExtension();
+            $filename = time() . '.' . $extension;
+
+            $path = 'uploads/thumbnails/';
+            $file->move($path, $filename);
+
+            $thumbnailPath = $path . $filename;
+            $validated['thumbnail'] = $thumbnailPath;
+        }
 
         Video::create(
             [
                 'user_id' => auth()->user()->id,
-                'description' => request()->get('description', ''),
-                'video_path' => $path . $filename,
-                'scheduled_time' => request()->get('scheduled_time', ''),
-                'published' => request()->get('published', '')
+                'description' => $validated['description'],
+                'video_path' => $videoPath,
+                'thumbnail' => $thumbnailPath,
+                'scheduled_time' => $validated['scheduled_time'] ?? null,
             ]
         );
 

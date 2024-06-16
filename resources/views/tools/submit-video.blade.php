@@ -16,9 +16,9 @@
                 </div>
                 <!-- Thumbnail Upload Input -->
                 <div class="mb-6">
-                    <label for="thumbnail_path" class="relative cursor-pointer bg-blue-600 text-white hover:bg-blue-700 border border-blue-600 rounded-md py-2 px-4 inline-flex items-center justify-center w-full">
+                    <label for="thumbnail" class="relative cursor-pointer bg-blue-600 text-white hover:bg-blue-700 border border-blue-600 rounded-md py-2 px-4 inline-flex items-center justify-center w-full">
                         <span class="mr-2">Choose Thumbnail</span>
-                        <input type="file" id="thumbnail_path" name="thumbnail_path" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
+                        <input type="file" id="thumbnail" name="thumbnail" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
                     </label>
                 </div>
                 <!-- Description Input -->

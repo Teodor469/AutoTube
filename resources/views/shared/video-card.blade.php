@@ -1,6 +1,9 @@
 <div class="mt-4 overflow-auto">
     <div class="bg-gray-700 p-6 rounded-lg shadow-md mb-4 flex items-center relative text-white">
         <div class="mr-4">
+            @if ($video->thumbnail)
+                <img src="{{ asset($video->thumbnail) }}" alt="Thumbnail" class="w-32 h-20 object-cover rounded-lg mb-2">
+            @endif
             <video src="{{ asset($video->video_path) }}" type="video/mp4" class="w-64 h-40 rounded-lg" controls></video>
         </div>
         <div class="flex-grow">

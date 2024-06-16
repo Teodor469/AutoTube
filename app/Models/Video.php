@@ -14,6 +14,7 @@ class Video extends Model
         'description',
         'video_path',
         'scheduled_time',
+        'thumbnail'
     ];
 
     protected $casts = [
