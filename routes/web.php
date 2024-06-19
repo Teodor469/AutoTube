@@ -3,11 +3,16 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\VideoController;
+use App\Http\Controllers\YouTubeController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/landingPage', [DashboardController::class, 'landingPage'])->name('landingPage');
 
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+
+Route::get('/dashboard', [YouTubeController::class, 'index'])->name('dashboard.youtube');
+
+Route::get('/oauth2callback', [YouTubeController::class, 'oauthCallback'])->name('oauthCallback');
 
 Route::group(['middleware' => ['auth']], function () { // May need to update the group in order to share the same namespace for the controller
 

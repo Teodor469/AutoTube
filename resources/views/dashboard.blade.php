@@ -8,10 +8,14 @@
         @include('layout.nav')
         <div class="container mx-auto p-4">
             @include('shared.success-message')
+        </div>
+    </div>
+    <div>
+        @include('tools.youtube-dashboard')
     </div>
     @include('layout.footer')
-@endauth
+    @endauth
 
-@guest
-    @include('landing-page')
-@endguest
+    @guest
+        @include('landing-page')
+    @endguest
