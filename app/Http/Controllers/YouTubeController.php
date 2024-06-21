@@ -2,61 +2,66 @@
 
 namespace App\Http\Controllers;
 
-use Google_Client;
-use Google_Service_YouTube;
+use Google\Client;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 
 class YouTubeController extends Controller
 {
-    public function index(Request $request)
-    {
-        $client = $this->getClient();
-        if ($request->has('code')) {
-            $client->fetchAccessTokenWithAuthCode($request->get('code'));
-            Session::put('access_token', $client->getAccessToken());
-            return redirect()->route('dashboard');
-        }
 
-        if (Session::has('access_token')) {
-            $client->setAccessToken(Session::get('access_token'));
-            if ($client->isAccessTokenExpired()) {
-                Session::forget('access_token');
-                return redirect()->route('dashboard');
-            }
+public function index(Request $request)
+{
+    // Set the redirect URL
+    $redirectUrl = 'https://redirectmeto.com/https://demo.test';
+
+    // Create and configure Google client
+    $client = new Client();
+    $client->setAuthConfig(base_path('autotube.json'));
+    $client->setRedirectUri($redirectUrl);
+    $client->addScope('https://www.googleapis.com/auth/youtube');
+
+    // === SCENARIO 1: PREPARE FOR AUTHORIZATION ===
+    $authUrl = "";
+    if (!$request->has('code') && !Session::has('google_oauth_token')) {
+        $codeVerifier = $client->getOAuth2Service()->generateCodeVerifier();
+        Session::put('code_verifier', $codeVerifier);
+
+        // Get the URL to Google’s OAuth server to initiate the authentication and authorization process
+        $authUrl = $client->createAuthUrl();
+        return Redirect::away($authUrl);
+    }
+
+    // === SCENARIO 2: COMPLETE AUTHORIZATION ===
+    // If we have an authorization code, handle callback from Google to get and store access token
+    if ($request->has('code')) {
+        $token = $client->fetchAccessTokenWithAuthCode($request->input('code'), Session::get('code_verifier'));
+        $client->setAccessToken($token);
+        Session::put('google_oauth_token', $token);
+        return Redirect::away($redirectUrl);
+    }
+
+    // === SCENARIO 3: ALREADY AUTHORIZED ===
+    // If we’ve previously been authorized, we’ll have an access token in the session
+    if (Session::has('google_oauth_token')) {
+        $client->setAccessToken(Session::get('google_oauth_token'));
+        if ($client->isAccessTokenExpired()) {
+            Session::forget('google_oauth_token');
+            $connected = false;
         } else {
-            $authUrl = $client->createAuthUrl();
-            return redirect()->away($authUrl);
+            $connected = true;
         }
-
-        $youtube = new Google_Service_YouTube($client);
-        $channelStats = $youtube->channels->listChannels('statistics', ['mine' => true]);
-
-        $videoStats = $youtube->videos->listVideos('statistics', ['myRating' => 'like']);
-
-
-        return view('dashboard', compact('channelStats', 'videoStats'));
+    } else {
+        $connected = false;
     }
 
-    public function oauthCallback(Request $request)
-    {
-        $client = $this->getClient();
-        $client->fetchAccessTokenWithAuthCode($request->code);
-        Session::put('access_token', $client->getAccessToken());
-
-        return redirect()->route('dashboard');
+    // === SCENARIO 4: TERMINATE AUTHORIZATION ===
+    if ($request->has('disconnect')) {
+        Session::forget(['google_oauth_token', 'code_verifier']);
+        return redirect($redirectUrl);
     }
 
-    private function getClient()
-    {
-        $client = new Google_Client();
-        $client->setClientId(env('GOOGLE_CLIENT_ID'));
-        $client->setClientSecret(env('GOOGLE_CLIENT_SECRET'));
-        $client->setRedirectUri(route('oauthCallback'));
-        $client->addScope(Google_Service_YouTube::YOUTUBE_READONLY);
+    return view('tools.youtube-dashboard')->with(['connected' => $connected, 'authUrl' => $authUrl ?? null]);
+}
 
-        return $client;
-    }
 }
