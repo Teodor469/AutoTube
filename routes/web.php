@@ -36,3 +36,7 @@ Route::controller(AuthController::class)->group(function () {
 
     Route::post('/logout', 'logout')->name('logout');
 });
+
+Route::get('/react', function () {
+    return view('react');
+});

@@ -4,3 +4,5 @@
         <button type="button" class="top-0 right-0 px-3 py-1 text-white" data-dismiss="alert" aria-label="Close">X</button>
     </div>
 @endif
+
+@vite('resources/js/app.js')
