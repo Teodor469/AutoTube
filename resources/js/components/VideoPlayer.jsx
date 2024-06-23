@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import ReactDOM from 'react-dom/client';
 
 const VideoPlayer = ({ videoSrc, thumbnailSrc, description, scheduledTime, published }) => {
-  const [isThumbnailVisible, setThumbnailVisible] = useState(true);
+  const [isThumbnailVisible, setThumbnailVisible] = useState(!!thumbnailSrc);
   const videoRef = useRef(null);
 
   const handlePlay = () => {
@@ -23,7 +23,7 @@ const VideoPlayer = ({ videoSrc, thumbnailSrc, description, scheduledTime, publi
     <div className="mt-4 overflow-auto">
       <div className="bg-gray-700 p-6 rounded-lg shadow-md mb-4 flex items-center relative text-white">
         <div className="mr-4 relative">
-          {isThumbnailVisible && thumbnailSrc && (
+          {isThumbnailVisible && (
             <img src={thumbnailSrc} alt="Thumbnail" className="w-64 h-40 object-cover rounded-lg absolute" />
           )}
           <video
