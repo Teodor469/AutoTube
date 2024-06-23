@@ -15,3 +15,4 @@ import './bootstrap';
 import './components/Example';
 import './components/SuccessMessage';
 import './components/VideoPlayer';
+import './components/Navbar';
