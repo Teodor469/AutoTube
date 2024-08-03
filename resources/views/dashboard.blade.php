@@ -14,8 +14,8 @@
         @include('tools.youtube-dashboard')
     </div>
     @include('layout.footer')
-    @endauth
+@endauth
 
-    @guest
-        @include('landing-page')
-    @endguest
+@guest
+    @include('landing-page')
+@endguest
